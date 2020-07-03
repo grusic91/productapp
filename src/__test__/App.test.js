@@ -1,22 +1,22 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from '../App';
-import { ProductTableRow} from '../ProductTableRow';
-/*
-import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() }); */
+import ProductsAndSuppliers from '../components/ProductsAndSuppliers';
 
 describe("<App />", () => {
-  it("renders without crashing", () => {
-    const wrapper = shallow(<App />);   
-  });
+  let wrapper;
 
-  it("renders productTableRow", () => {
-    const wrapper = shallow(<App />);
-    const productTableRow = wrapper.find(ProductTableRow);
-    expect(productTableRow).toHaveLength(1); 
-  });
+  beforeEach(() => wrapper = shallow(<App />));
 
- 
-})
+  // snapshot test
+  it('should render correctly', () => expect(wrapper).toMatchSnapshot());
+
+  it("should renders 1 div element", () => {
+    expect(wrapper.find('div').length).toEqual(1);
+    expect(wrapper.find('div')).toHaveLength(1);
+  })
+  
+  it("renders ProductsAndSuppliers Component", () => {
+    expect(wrapper.containsMatchingElement(<ProductsAndSuppliers />)).toEqual(true); 
+  }); 
+});

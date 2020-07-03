@@ -6,10 +6,10 @@ export class ProductEditor extends React.Component {
 
         this.state = {
             formData: {
-                id: props.product.id || "",
-                name: props.product.name || "",
-                category: props.product.category || "",
-                price: props.product.price || ""       
+                id: this.props.product.id || "",
+                name: this.props.product.name || "",
+                category: this.props.product.category || "",
+                price: this.props.product.price || ""       
             }
         } 
     }
@@ -28,7 +28,7 @@ export class ProductEditor extends React.Component {
             <div className="form-group">
                 <label>ID</label>
                 <input 
-                    className="form-control" 
+                    className="form-control id" 
                     name="id" 
                     disabled
                     value={this.state.formData.id}
@@ -38,7 +38,8 @@ export class ProductEditor extends React.Component {
             <div className="form-group">
                 <label>Name</label>
                 <input 
-                    className="form-control"
+                    id="name"
+                    className="form-control name"
                     name="name"
                     value={this.state.formData.name}
                     onChange={this.handleChange}
@@ -63,10 +64,12 @@ export class ProductEditor extends React.Component {
                 />
             </div>
             <div className="text-center">
-                <button className="btn btn-primary m-1" onClick={this.handleClick}>
+                <button id="save-button" className="btn btn-primary m-1" onClick={this.handleClick}>
                     Save
                 </button>
-                <button className="btn btn-secondary" onClick={this.props.cancelCallback}>
+                <button 
+                    id="cancle-button" 
+                    className="btn btn-secondary" onClick={this.props.cancelCallback}>
                     Cancel
                 </button>
             </div>

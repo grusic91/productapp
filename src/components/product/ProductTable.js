@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {ProductTableRow} from './ProductTableRow';
 
 export class ProductTable extends Component {
@@ -27,4 +28,10 @@ export class ProductTable extends Component {
             </tbody>
         </table>
     }
+}
+
+ProductTable.propTypes = {
+    products: PropTypes.array.isRequired,
+    editCallback: PropTypes.func.isRequired,
+    deleteCallback: PropTypes.func.isRequired
 }
