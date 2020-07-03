@@ -1,12 +1,9 @@
 import React from 'react';
 
-export class Selector extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selection: React.Children.toArray(props.children)[0].props.name
-        }
-    }
+export class Selector extends React.Component {   
+    state = {
+        selection: "Products"
+    }   
 
     setSelection = ev => {
         ev.persist();
@@ -14,6 +11,7 @@ export class Selector extends React.Component {
     }
 
     render() {
+        
         return <div className="container-fluid">
             <div className="row">
                 <div className="col-2">

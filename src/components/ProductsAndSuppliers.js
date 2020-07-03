@@ -1,12 +1,14 @@
 import React, {Component } from 'react';
 import { Selector } from './Selector';
-import { ProductDisplay } from './ProductDisplay';
-import { SupplierDisplay } from './SupplierDisplay';
+import { ProductDisplay } from './product/ProductDisplay';
+import { SupplierDisplay } from './supplier/SupplierDisplay';
 
 export default class ProductsAndSuppliers extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
+            nameProducts: "Products",
+            nameSuppliers: "Suppliers",
             products: [
                 {
                     id: 1,
@@ -48,7 +50,7 @@ export default class ProductsAndSuppliers extends Component {
     saveData = (collection, item) => {
         if (item.id === "") {
             item.id = this.idCounter++;
-            this.setState(state => state[collection] = state[collection].concat(item))
+            this.setState(state => state[collection] = state[collection].concat(item));
         } else {
             this.setState(state => state[collection] = state[collection].map(
                 stored => stored.id === item.id ? item: stored
@@ -63,16 +65,18 @@ export default class ProductsAndSuppliers extends Component {
     }
 
     render() {
+        const {products, nameProducts, nameSuppliers} = this.state;
+        
         return <div>
             <Selector>
                 <ProductDisplay 
-                    name="Products"
-                    products={this.state.products}
+                    name={nameProducts}
+                    products={products}
                     saveCallback={ p => this.saveData("products", p)}
                     deleteCallback={ p => this.deleteData("products", p)}
                 />
                 <SupplierDisplay 
-                    name="Suppliers"
+                    name={nameSuppliers}
                     suppliers={ this.state.suppliers }
                     saveCallback={ s => this.saveData("suppliers", s)}
                     deleteCallback={ s => this.deleteData("suppliers", s)}

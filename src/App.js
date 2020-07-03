@@ -1,14 +1,8 @@
 import React from 'react';
-import ProductsAndSuppliers from './ProductsAndSuppliers';
+import ProductsAndSuppliers from './components/ProductsAndSuppliers';
 
-
-function App() {
-  
-  return (
-    <div>
-      <ProductsAndSuppliers />
-    </div>
-  );
-}
+const App = () => <div>
+    <ProductsAndSuppliers />
+  </div>;
 
 export default App;

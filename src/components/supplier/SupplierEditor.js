@@ -33,7 +33,7 @@ export class SupplierEditor extends React.Component {
             <div className="form-group">
                 <label>ID</label>
                 <input 
-                    className="form-control" 
+                    className="form-control id" 
                     name="id" 
                     disabled
                     value={this.state.formData.id}
@@ -43,7 +43,7 @@ export class SupplierEditor extends React.Component {
             <div className="form-group">
                 <label>Name</label>
                 <input 
-                    className="form-control"
+                    className="form-control name"
                     name="name"
                     value={this.state.formData.name}
                     onChange={this.handleChange}
