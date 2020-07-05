@@ -1,83 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { SupplierEditor } from './SupplierEditor';
 import { SupplierTable } from './SupplierTable';
+import { connect } from 'react-redux';
+import { startCreatingSupplier } from '../../store/stateActions';
+import { SUPPLIERS } from '../../store/dataTypes';
+import { EditorConnector } from '../../store/EditorConnector';
+import { TableConnector } from '../../store/TableConnector';
 
-export class SupplierDisplay extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            showEditor: false,
-            selected: null
-        }
-    }
+const ConnectedEditor = EditorConnector(SUPPLIERS, SupplierEditor);
+const ConnectedTable = TableConnector(SUPPLIERS, SupplierTable);
 
-    startEditing = supplier => {
-        this.setState({
-            showEditor: true,
-            selected: supplier
-        })
+const mapStateToProps = storeData => {
+    return {
+        editing: storeData.stateData.editing,
+        selected: storeData.modelData.suppliers.find(itme => itme.id === storeData.stateData.selectedId) ||{}
     }
+}
 
-    createSupplier = () => {
-        this.setState({
-            showEditor: true,
-            selected: {}
-        })
-    }
+const mapDispatchToProps = {
+    createSupplier: startCreatingSupplier
+}
 
-    cancelEditing = () => {
-        this.setState({
-            showEditor: false,
-            selected: null
-        })
-    }
+const connectFunction = connect(mapStateToProps, mapDispatchToProps)
 
-    saveSupplier = supplier => {
-        this.props.saveCallback(supplier);
-        this.setState({
-            showEditor: false,
-            selected: null
-        });
-    }
+export const SupplierDisplay = connectFunction (
+    class extends React.Component {   
 
     render() {
-        const { showEditor, selected } = this.state;
-
-        return (
-            <div className="m-2">
-            { showEditor ? 
-                <div>
-                    <SupplierEditor
-                        key={selected.id || -1 }
-                        supplier={selected}
-                        saveCallback={this.saveSupplier}
-                        cancelEditing={this.cancelEditing}
-                    />
+        if(this.props.editing) {
+            return <ConnectedEditor key={this.props.selected.id ||-1 } />
+        } else {
+            return <div className="m-2">
+                <ConnectedTable />
+                <div className="text-center">
+                    <button className="btn btn-primary m-1" onClick={this.props.createSupplier}>
+                        Create Supplier
+                    </button>
                 </div>
-                    :
-                <React.Fragment>
-                    <SupplierTable
-                        suppliers={this.props.suppliers}
-                        editCallback={this.startEditing}
-                        deleteCallback={this.props.deleteCallback}
-                    />
-                    <div className="text-center">
-                        <button className="btn btn-primary m-1" onClick={this.createSupplier}>
-                            Create Supplier
-                        </button>
-                    </div>
-                </React.Fragment>
-            }
-            </div>
-        )
+          </div>
+        }
     }
-}
-
-
-SupplierDisplay.propTypes = {
-    name: PropTypes.string.isRequired,
-    suppliers: PropTypes.array.isRequired,
-    saveCallback: PropTypes.func.isRequired,
-    deleteCallback: PropTypes.func.isRequired,
-}
+})
