@@ -7,18 +7,13 @@ import {
  } from 'react-router-dom';
 import { ToggleLink } from '../routing/ToggleLink';
 import { RoutedDisplay } from '../routing/RoutedDisplay';
+import { IsolatedTable } from '../IsolatedTable';
+import { IsolatedEditor } from '../IsolatedEditor';
+import { RequestError } from '../webservice/RequestError';
 
 //const RouteInfoHOC = withRouter(RouteInfo)
 
 export class Selector extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      showPrompt: false,
-      message: "",
-      callback: () => {}
-    }
-  }
 
   customGetUserConfirmation = (message, navCallback) => {
     this.setState({
@@ -36,7 +31,7 @@ export class Selector extends React.Component {
       component: child,
       name: child.props.name,
       url: `/${child.props.name.toLowerCase()}`,
-      dataType: child.props.dataType
+      datatype: child.props.datatype
     }));
 
   return (
@@ -44,17 +39,20 @@ export class Selector extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-2">
+            <ToggleLink to="/isolated">Isolated Data</ToggleLink>
           {
             routes.map(r => <ToggleLink key={r.url} to={r.url}>{r.name}</ToggleLink>)
           }
           </div>
-          <div className="col">
-    
+          <div className="col">    
             <Switch>
+            <Route path="/isolated" component={IsolatedTable} exact={true} />
+            <Route path="/isolated/:mode/:id?" component={IsolatedEditor} />
+            <Route paht="/error/:message" component={ RequestError } /> 
             {
               routes.map( r => <Route 
                 key={r.url} 
-                path={`/:datatype(${r.dataType})/:model?/:id?`} 
+                path={`/:datatype(${r.datatype})/:model?/:id?`} 
                 component={RoutedDisplay(r.datatype)} 
                 />
               )
